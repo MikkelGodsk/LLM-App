@@ -1,0 +1,1 @@
+C:\Users\mikke\miniconda3\envs\LLM\Scripts\streamlit.exe run App.py
