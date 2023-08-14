@@ -14,7 +14,7 @@ architectures:
 
 apps:
   chatgpt-app:
-    command: streamlit run App.py  # Replace 'app.py' with your Streamlit app's main script if different
+    command: $SNAP/bin/start.sh  # Replace 'app.py' with your Streamlit app's main script if different
     plugs: [network, network-bind, removable-media]
 
 parts:
