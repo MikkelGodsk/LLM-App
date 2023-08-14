@@ -1,4 +1,4 @@
-name: chatgpt-app
+name: llm-app
 base: core22
 version: '0.1'
 summary: A web-app running ChatGPT locally
