@@ -10,12 +10,12 @@ grade: devel  # Use 'stable' for production apps
 confinement: devmode #strict  # or 'classic' for apps that require more system access
 
 architectures:
-  - build-on: [ arm64 ]
-    run-on: arm64
+  - build-on: arm64
 
 apps:
   chatgpt-app:
     command: streamlit run App.py  # Replace 'app.py' with your Streamlit app's main script if different
+    plugs: [network, network-bind, removable-media]
 
 parts:
   chatgpt-app:
