@@ -1,0 +1,32 @@
+name: chatgpt-app
+base: core22
+version: '0.1'
+summary: A web-app running ChatGPT locally
+description: |
+  A web-app using streamlit which serves as a UI to ChatGPT via langchain and the OpenAI API.
+  The app is meant as a budget-friendly way of using GPT-4, as well as allowing the user to use the model in several other ways.
+  This includes document question answering (TODO), writing/running Python code, browsing Google/Bing etc.
+grade: devel  # Use 'stable' for production apps
+confinement: devmode #strict  # or 'classic' for apps that require more system access
+
+apps:
+  chatgpt-app:
+    command: streamlit run App.py  # Replace 'app.py' with your Streamlit app's main script if different
+
+parts:
+  chatgpt-app:
+    plugin: python
+    #python-version: python3
+    source: .  # This assumes the snapcraft.yaml is in the root of your app directory
+    build-packages:
+      - python3-pip
+      - python3-setuptools
+    stage-packages:
+      - python3
+
+    # Specify your Python dependencies
+    #python-packages: [streamlit]
+
+    override-build: |
+      pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
+      snapcraftctl build

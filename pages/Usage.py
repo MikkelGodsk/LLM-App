@@ -3,6 +3,8 @@ import streamlit as st
 import components
 import utils
 
+utils.ensure_logged_in(show_text=True)
+
 st.markdown("# Usage 💸")
 st.sidebar.markdown("# Usage 💸")
 

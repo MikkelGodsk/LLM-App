@@ -5,6 +5,9 @@ from datetime import datetime
 import components
 import utils
 
+st.set_page_config(layout="wide")
+
+utils.ensure_logged_in(show_text=True)
 FILE_DIR = 'Files'
 
 st.markdown("# Files 📄")
@@ -32,21 +35,25 @@ if uploaded_files:
 # List current files: https://stackoverflow.com/questions/69492406/streamlit-how-to-display-buttons-in-a-single-line
 st.divider()
 st.markdown("## Current files")
-fields = ["File name", "Date of modification", "File size", "Download", "Delete"]
-colms = st.columns((2,1,1,1,1))
+fields = ["File name", "Date of modification", "File size", "Modify", "Download", "Delete"]
+colms = st.columns((2,1,1,1,1,1))
 for f, c in zip(fields, colms):
     c.write(f)
 
-for i, file in enumerate(os.listdir(FILE_DIR)):
-    col1, col2, col3, col4, col5 = st.columns((2,1,1,1,1))  # File name, Date, Size, Download, Delete
+files = os.listdir(FILE_DIR)
+for i, file in enumerate(files):
+    col1, col2, col3, col4, col5, col6 = st.columns((2,1,1,1,1,1))  # File name, Date, Size, Download, Delete
     col1.write(file)  # File name
     file = os.path.join(FILE_DIR, file)
     col2.write(datetime.utcfromtimestamp(int(os.path.getmtime(file))))  # Date of modification
     col3.write("{:.3f} MB".format(os.path.getsize(file)/(1024**2)))
-    with open(file, 'rb') as f_obj:   # This is awful. See if we can change it! Maybe through on_click?
-        with col4:
-            st.download_button("Download", data=f_obj.read(), file_name=file)
+    with col4:
+        modify = st.button("Modify", key=i+len(files))
     with col5:
-        if st.button("Delete", key=i):
+        with open(file, 'rb') as f_obj:
+            if modify:
+                st.download_button("Download", data=f_obj.read(), file_name=file)
+    with col6:
+        if modify and st.button("Delete", key=i):
             os.remove(file)
             st.experimental_rerun()

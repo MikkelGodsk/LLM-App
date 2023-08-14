@@ -9,6 +9,33 @@ from typing import List, Dict
 
 DATA_PATH = 'data'
 
+def login():
+    # Login
+    if "Authenticated" not in st.session_state or not st.session_state["Authenticated"]:
+        import streamlit_authenticator as stauth
+        import os
+        pages = {}
+        import yaml
+        from yaml.loader import SafeLoader
+
+        with open(os.path.join('.streamlit','profiles.yaml')) as file:
+            config = yaml.load(file, Loader=SafeLoader)
+
+        authenticator = stauth.Authenticate(
+            config['credentials'],
+            config['cookie']['name'],
+            config['cookie']['key'],
+            config['cookie']['expiry_days'],
+            config['preauthorized']
+        )
+        name, st.session_state["Authenticated"], username = authenticator.login('Login', 'main')
+
+def ensure_logged_in(show_text=False):
+    if not "Authenticated" in st.session_state or not st.session_state["Authenticated"]:
+        if show_text:
+            st.text("Please log in on the main page.")
+        st.stop()
+
 def setup():
     if not os.path.isdir("data"):
         os.mkdir("data")
@@ -34,6 +61,12 @@ def get_conversation_list():
     items = ['New conversation'] + [conv[:-4] for conv in sorted(os.listdir(DATA_PATH), reverse=True)]
     if 'usage' in items: items.remove('usage')
     return items
+
+def create_model() -> lc.chains.base.Chain:
+    return lc.ConversationChain(
+        llm=lc.chat_models.ChatOpenAI(temperature=st.session_state["temperature"], model=st.session_state["model"]),
+        memory=st.session_state["Memory"]
+    )
 
 class UsageLogger:
     _fieldnames = ['time', 'cost']

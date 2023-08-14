@@ -5,6 +5,11 @@ import utils
 import components
 
 utils.setup()  # In case the app wasn't setup (just creates some folders if needed)
+utils.login()
+utils.ensure_logged_in()
+
+add_ons = ["Persistent memory", "Python REPL", "Google", "Files", "Wikipedia", "CSV files", "Wolfram Alpha", "YouTube (OpenAI whisper)", "Human", "Google places", "Office 365", "Home automation"]
+add_ons.sort()
 
 # Get OpenAI API key
 from dotenv import load_dotenv, find_dotenv
@@ -28,15 +33,14 @@ if "Conversation" not in st.session_state:
 
 # Settings
 with st.expander("Settings"):
-    st.session_state["model"] = st.selectbox("Select a model", ["gpt-3.5-turbo", "gpt-4"], disabled=st.session_state["Conversation"].started)
-    st.session_state["temperature"] = st.select_slider("Randomness", options=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], value=0.5, disabled=st.session_state["Conversation"].started)     
+    col1, col2 = st.columns((5,5))
+    with col1:
+        st.session_state["model"] = st.selectbox("Select a model", ["gpt-3.5-turbo", "gpt-4"], disabled=st.session_state["Conversation"].started)
+    with col2:
+        st.session_state["temperature"] = st.select_slider("Randomness", options=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], value=0.5, disabled=st.session_state["Conversation"].started)     
     # st.multiselect for model properties (such as internet access, tools, persistent memory etc.)
-
-def create_model() -> lc.chains.base.Chain:
-    return lc.ConversationChain(
-        llm=lc.chat_models.ChatOpenAI(temperature=st.session_state["temperature"], model=st.session_state["model"]),
-        memory=st.session_state["Memory"]
-    )
+    st.session_state["model_settings"] = st.multiselect("Select add-ons", add_ons, disabled=st.session_state["Conversation"].started)
+    # Maybe warn if e.g. home automation and python are not selected at once. I imagine home automation would call python functions
 
 # Chat
-components.chat(create_model)
+components.chat(utils.create_model)

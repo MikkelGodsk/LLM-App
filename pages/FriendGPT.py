@@ -1,1 +1,0 @@
-# This friendly version of ChatGPT remembers who you are (ConversationSummaryBufferMemory which is stored in txt file).

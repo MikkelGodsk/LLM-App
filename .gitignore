@@ -1,3 +1,4 @@
 data/*
 Files/*
 __pycache__
+.streamlit/profiles.yaml
