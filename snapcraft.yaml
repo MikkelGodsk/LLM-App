@@ -9,8 +9,8 @@ description: |
 grade: devel  # Use 'stable' for production apps
 confinement: devmode #strict  # or 'classic' for apps that require more system access
 
-#architectures:
-#  - build-on: arm64
+architectures:
+  - build-on: arm64
 
 apps:
   chatgpt-app:
@@ -35,3 +35,5 @@ parts:
       pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
       cp start.sh $SNAPCRAFT_PART_INSTALL/
       snapcraftctl build
+
+  # Or make a part that runs the app.
