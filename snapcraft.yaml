@@ -15,6 +15,7 @@ architectures:
 apps:
   chatgpt-app:
     command: start.sh  # Replace 'app.py' with your Streamlit app's main script if different
+    daemon: simple
     plugs: [network, network-bind, removable-media]
 
 parts:
