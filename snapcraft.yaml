@@ -34,6 +34,7 @@ parts:
     override-build: |
       pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
       cp start.sh $SNAPCRAFT_PART_INSTALL/
+      chmod 755 $SNAPCRAFT_PART_INSTALL/start.sh
       snapcraftctl build
 
   # Or make a part that runs the app.
