@@ -37,6 +37,8 @@ def ensure_logged_in(show_text=False):
         st.stop()
 
 def setup():
+    if os.path.isdir("/mnt/essd"):
+        os.chdir("/mnt/essd")
     if not os.path.isdir("data"):
         os.mkdir("data")
     if not os.path.isdir("Files"):

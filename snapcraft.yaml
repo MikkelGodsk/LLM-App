@@ -21,7 +21,6 @@ apps:
 parts:
   chatgpt-app:
     plugin: python
-    #python-version: python3
     source: .  # This assumes the snapcraft.yaml is in the root of your app directory
     build-packages:
       - python3-pip
@@ -38,8 +37,7 @@ parts:
       - streamlit==1.24.1
       - tiktoken==0.4.0
       - wikipedia==1.4.0
-
-    #pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
+    
     override-build: |
       cp start.sh $SNAPCRAFT_PART_INSTALL/
       cp *.py $SNAPCRAFT_PART_INSTALL/

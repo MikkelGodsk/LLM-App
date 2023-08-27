@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount MyDrive at boot
+
+[Mount]
+What=/dev/sda1
+Where=/mnt/essd
+Type=vfat
+Options=defaults
+
+[Install]
+WantedBy=multi-user.target
