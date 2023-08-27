@@ -30,10 +30,17 @@ parts:
       - python3
 
     # Specify your Python dependencies
-    #python-packages: [streamlit]
+    python-packages: |
+      chromadb==0.4.3
+      langchain==0.0.237
+      openai==0.27.8
+      pypdf==3.13.0
+      streamlit==1.24.1
+      tiktoken==0.4.0
+      wikipedia==1.4.0
 
+    #pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
     override-build: |
-      pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
       cp start.sh $SNAPCRAFT_PART_INSTALL/
       chmod 755 $SNAPCRAFT_PART_INSTALL/start.sh
       snapcraftctl build
