@@ -42,7 +42,7 @@ parts:
     #pip install -r requirements.txt --target $SNAPCRAFT_PART_INSTALL
     override-build: |
       cp start.sh $SNAPCRAFT_PART_INSTALL/
-      cp App.py $SNAPCRAFT_PART_INSTALL/
+      cp *.py $SNAPCRAFT_PART_INSTALL/
       cp -r pages $SNAPCRAFT_PART_INSTALL/
       chmod 755 $SNAPCRAFT_PART_INSTALL/start.sh
       snapcraftctl build
